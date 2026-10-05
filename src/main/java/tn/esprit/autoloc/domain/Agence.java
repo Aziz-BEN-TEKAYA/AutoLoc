@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
-@Table(name = "agence")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,7 +16,7 @@ import java.util.Set;
 public class Agence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAgence;
+    private Long id;
     @Column(nullable = false, unique = false, length = 20)
     private String nom;
     @Column(nullable = false, length = 50)
