@@ -19,7 +19,7 @@ public class Equipement {
     private Long idEquipement;
     @Column(nullable = false, unique = true, length = 20)
     private String libelle;
-    @ManyToMany
+    @ManyToMany(mappedBy="equipements")
     Set<Vehicule> vehicules;
 
 }

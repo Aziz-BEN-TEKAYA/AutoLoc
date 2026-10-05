@@ -26,7 +26,7 @@ public class Reservation {
     private StatutReservation statut;
     @ManyToOne
     Vehicule vehicule;
-    @OneToOne(mappedBy = "reservation")
+    @OneToOne
     Contrat contrat;
     @ManyToOne
     Client client;
