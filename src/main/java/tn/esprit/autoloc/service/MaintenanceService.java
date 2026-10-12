@@ -1,12 +1,15 @@
 package tn.esprit.autoloc.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Maintenance;
 import tn.esprit.autoloc.repository.MaintenanceRepository;
 
 import java.util.List;
-
+@Service
+@RequiredArgsConstructor
 public class MaintenanceService implements ImaintenanceService{
-    MaintenanceRepository maintRepo;
+    final MaintenanceRepository maintRepo;
     @Override
     public List<Maintenance> retrieveAllMaintenances() {
         return (List<Maintenance>) maintRepo.findAll();

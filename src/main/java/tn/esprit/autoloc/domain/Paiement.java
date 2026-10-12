@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "paiement")
 @Getter
 @Setter
 @NoArgsConstructor

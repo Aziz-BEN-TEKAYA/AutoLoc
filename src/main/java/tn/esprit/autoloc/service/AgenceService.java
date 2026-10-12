@@ -1,13 +1,16 @@
 package tn.esprit.autoloc.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Agence;
 import tn.esprit.autoloc.repository.AgenceRepository;
 import tn.esprit.autoloc.repository.AgenceRepository;
 
 import java.util.List;
-
+@Service
+@RequiredArgsConstructor
 public class AgenceService implements IagenceService {
-    AgenceRepository agRepo;
+   final  AgenceRepository agRepo;
     @Override
     public List<Agence> retrieveAllAgences() {
         return (List<Agence>) agRepo.findAll();
