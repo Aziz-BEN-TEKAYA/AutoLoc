@@ -34,4 +34,19 @@ public class VehiculeController {
     public Vehicule updateVehicule(@RequestBody Vehicule c){
         return VehiculeService.updateVehicule(c);
     }
+
+    @PutMapping("/affecterVehicule/{idVehicule}/{idAgence}")
+    public Vehicule affecterVehicule(@PathVariable Long idVehicule, @PathVariable Long idAgence){
+        return VehiculeService.affecterVehicule(idVehicule, idAgence);
+    }
+
+    @PutMapping("/affecterEquipement/{idVehicule}/{idEquipement}")
+    public Vehicule affecterEquipement(@PathVariable Long idVehicule, @PathVariable Long idEquipement){
+        return VehiculeService.affecterEquipement(idVehicule, idEquipement);
+    }
+
+    @PutMapping("/desaffecterEquipement/{idVehicule}/{idEquipement}")
+    public Vehicule desaffecterEquipement(@PathVariable Long idVehicule, @PathVariable Long idEquipement){
+        return VehiculeService.desaffecterEquipement(idVehicule, idEquipement);
+    }
 }

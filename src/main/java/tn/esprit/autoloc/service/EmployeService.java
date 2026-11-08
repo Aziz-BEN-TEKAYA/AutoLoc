@@ -2,6 +2,7 @@ package tn.esprit.autoloc.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.autoloc.domain.Agence;
 import tn.esprit.autoloc.domain.Employe;
 import tn.esprit.autoloc.repository.AgenceRepository;
@@ -14,7 +15,6 @@ import java.util.List;
 public class EmployeService implements IemployeService{
     final EmployeRepository empRepo;
     final AgenceRepository agenceRepo;
-    final
     @Override
     public List<Employe> retrieveAllEmployes() {
         return (List<Employe>) empRepo.findAll();
@@ -48,10 +48,11 @@ public class EmployeService implements IemployeService{
         return (List<Employe>) empRepo.saveAll(Employes);
     }
 
-
     @Override
+    @Transactional
     public Employe desaffecterEmploye(Long idEmploye) {
-        Employe employe = empRepo.findById(idEmploye).orElseThrow(() -> new RuntimeException("Employé introuvable"));
+        Employe employe = empRepo.findById(idEmploye)
+                .orElseThrow(() -> new RuntimeException("Employé introuvable"));
 
         employe.setAgence(null);
 
@@ -59,11 +60,18 @@ public class EmployeService implements IemployeService{
     }
 
     @Override
+    @Transactional
     public Employe affecterEmploye(Long idEmploye, Long idAgence) {
         Employe employe = empRepo.findById(idEmploye)
                 .orElseThrow(() -> new RuntimeException("Employé introuvable"));
 
-        Agence agence = agenceRepo.findById(idAgence).orElseThrow(() -> new RuntimeException("Agence introuvable"));
+        Agence agence = agenceRepo.findById(idAgence)
+                .orElseThrow(() -> new RuntimeException("Agence introuvable"));
+
+        if (employe.getAgence() != null) {
+            throw new IllegalStateException("L'employé est déjà affecté à l'agence "
+                    + employe.getAgence().getId() + " : désaffectez-le d'abord avant de le transférer");
+        }
 
         employe.setAgence(agence);
 
