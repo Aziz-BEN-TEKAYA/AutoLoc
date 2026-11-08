@@ -2,6 +2,7 @@ package tn.esprit.autoloc.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.autoloc.domain.Agence;
 import tn.esprit.autoloc.domain.Equipement;
 import tn.esprit.autoloc.domain.Vehicule;
@@ -9,6 +10,7 @@ import tn.esprit.autoloc.repository.AgenceRepository;
 import tn.esprit.autoloc.repository.EquipementRepository;
 import tn.esprit.autoloc.repository.VehiculeRepository;
 
+import java.util.HashSet;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
@@ -50,8 +52,8 @@ public class VehiculeService implements IvehiculeService {
     }
 
     @Override
+    @Transactional
     public Vehicule affecterVehicule(Long idVehicule, Long idAgence) {
-
         Vehicule vehicule = vRepo.findById(idVehicule)
                 .orElseThrow(() -> new RuntimeException("Véhicule introuvable"));
 
@@ -61,31 +63,37 @@ public class VehiculeService implements IvehiculeService {
         vehicule.setAgence(agence);
         return vRepo.save(vehicule);
     }
-    @Override
-    public Vehicule affecterEquipement(Long idVehicule, Long idEquipement) {
 
+    @Override
+    @Transactional
+    public Vehicule affecterEquipement(Long idVehicule, Long idEquipement) {
         Vehicule vehicule = vRepo.findById(idVehicule)
                 .orElseThrow(() -> new RuntimeException("Véhicule introuvable"));
 
         Equipement equipement = equipementRepo.findById(idEquipement)
                 .orElseThrow(() -> new RuntimeException("Équipement introuvable"));
 
-        if (!vehicule.getEquipements().contains(equipement)) {
-            vehicule.getEquipements().add(equipement);
+        if (vehicule.getEquipements() == null) {
+            vehicule.setEquipements(new HashSet<>());
         }
+        vehicule.getEquipements().add(equipement); // Set : pas de doublon
 
         return vRepo.save(vehicule);
     }
-    @Override
-    public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
 
+    // Scénario 3 (retour) : l'équipement est retiré du véhicule (le lien disparaît, pas l'équipement)
+    @Override
+    @Transactional
+    public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
         Vehicule vehicule = vRepo.findById(idVehicule)
                 .orElseThrow(() -> new RuntimeException("Véhicule introuvable"));
 
         Equipement equipement = equipementRepo.findById(idEquipement)
                 .orElseThrow(() -> new RuntimeException("Équipement introuvable"));
 
-        vehicule.getEquipements().remove(equipement);
+        if (vehicule.getEquipements() != null) {
+            vehicule.getEquipements().remove(equipement);
+        }
 
         return vRepo.save(vehicule);
     }
