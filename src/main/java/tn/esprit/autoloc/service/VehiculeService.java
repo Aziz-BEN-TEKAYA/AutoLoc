@@ -81,7 +81,7 @@ public class VehiculeService implements IvehiculeService {
         return vRepo.save(vehicule);
     }
 
-    // Scénario 3 (retour) : l'équipement est retiré du véhicule (le lien disparaît, pas l'équipement)
+
     @Override
     @Transactional
     public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
