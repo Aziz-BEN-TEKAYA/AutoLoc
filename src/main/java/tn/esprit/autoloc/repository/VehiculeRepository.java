@@ -1,8 +1,9 @@
 package tn.esprit.autoloc.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import tn.esprit.autoloc.domain.StatutReservation;
+import tn.esprit.autoloc.domain.CategorieVehicule;
 import tn.esprit.autoloc.domain.StatutVehicule;
 import tn.esprit.autoloc.domain.Vehicule;
 
@@ -13,9 +14,13 @@ import java.util.List;
 public interface VehiculeRepository extends CrudRepository<Vehicule,Long> {
 
     List<Vehicule> findByMarque(String marque);
-    List<Vehicule> findByCategorie(String categorie);
-    List<Vehicule> findByStatut_Disponible(StatutReservation statut);
+    List<Vehicule> findByCategorie(CategorieVehicule categorie);
+    List<Vehicule> findByStatut(StatutVehicule statut);
     List<Vehicule> findByMarqueContainingIgnoreCase(String fragment);
     List<Vehicule> findByTarifJournalierGreaterThan(BigDecimal tarif);
     List<Vehicule> findByMarqueAndStatut(String marque, StatutVehicule statut);
+    @Query("SELECT v FROM Vehicule v WHERE v.agence.id = :idAgence")
+    List<Vehicule> getVehiculesByAgence(Long idAgence);
+    @Query("SELECT a.nom, COUNT(v) FROM Agence a LEFT JOIN Vehicule v ON v.agence = a GROUP BY a.id, a.nom")
+    List<Object[]> countVehiculesByAgence();
 }
