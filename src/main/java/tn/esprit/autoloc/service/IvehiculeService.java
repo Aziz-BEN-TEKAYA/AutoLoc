@@ -18,11 +18,9 @@ public interface IvehiculeService {
 
     Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement);
 
-    // ---- Méthodes basées sur le DTO ----
+
     List<VehiculeDTO> retrieveAllVehiculesDTO();
     VehiculeDTO retrieveVehiculeDTO(Long idVehicule);
-    VehiculeDTO addVehiculeDTO(VehiculeDTO dto);
-    VehiculeDTO updateVehiculeDTO(VehiculeDTO dto);
     List<VehiculeDTO> vehiculesDisponiblesDTO();
     List<VehiculeDTO> vehiculesByAgenceDTO(Long idAgence);
 }
