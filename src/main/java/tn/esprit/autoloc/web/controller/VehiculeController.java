@@ -63,16 +63,6 @@ public class VehiculeController {
         return VehiculeService.retrieveVehiculeDTO(idVehicule);
     }
 
-    @PostMapping("/dto/addVehicule")
-    public VehiculeDTO addVehiculeDTO(@RequestBody VehiculeDTO dto){
-        return VehiculeService.addVehiculeDTO(dto);
-    }
-
-    @PutMapping("/dto/updateVehicule")
-    public VehiculeDTO updateVehiculeDTO(@RequestBody VehiculeDTO dto){
-        return VehiculeService.updateVehiculeDTO(dto);
-    }
-
     @GetMapping("/dto/disponibles")
     public List<VehiculeDTO> getVehiculesDisponiblesDTO(){
         return VehiculeService.vehiculesDisponiblesDTO();
